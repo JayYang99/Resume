@@ -1,0 +1,194 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>工作经历 </title>
+<link rel="shortcut icon" href="./images/favicon.jpg"/>
+<style>
+:root {
+  --bg-color: seagreen;
+  --primary-clr: black;
+  --secondary-clr: white;
+  --base-ff: 'Source Sans Pro', sans-serif;
+  --h2-fs: 2.25rem;
+  --pad: 2rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  min-height: 100vh;
+  font-family: var(--base-ff);
+}
+.grid__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 100%;
+  width: 50vw;
+  height: 50vh;
+  padding: var(--pad);
+  background-color: var(--bg-color);
+}
+@media (min-width: 600px) {
+  .grid__item {
+    flex: 1 0 50%;
+  }
+}
+.grid__item:nth-child(even) {
+  background-color: #36a265;
+}
+.grid__item:nth-child(3n) {
+  background-color: #2b8352;
+}
+.grid__item:nth-child(4n) {
+  background-color: #38aa6a;
+}
+.grid__item:nth-child(5n) {
+  background-color: #267449;
+}
+
+h2 {
+  font-size: var(--h2-fs);
+  text-align: center;
+  color: var(--primary-clr);
+  margin-top: 0px;
+  border: 0px;
+  
+  position: absolute;
+}
+
+.letter-wrap {
+  display: inline-block;
+  position: reltive;
+
+}
+
+.letter-wrap * {
+  pointer-events: none;
+}
+
+.letter-wrap__word {
+  display: inline-flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.letter-wrap__char {
+  display: inline-block;
+  position: relative;
+  text-transform: uppercase;
+}
+.letter-wrap__char-inner {
+  display: inline-block;
+}
+.letter-wrap__char-inner:after {
+  content: attr(data-letter);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: var(--secondary-clr);
+}
+.pp{
+  margin: 50px;
+  margin-left: 20px;
+  text-align: center;
+  padding-top: 200px;
+  padding-left: 0px;
+  font-size: 18px;
+  font-weight:normal;
+}
+</style>
+</head>
+<body>
+
+<script src="js/TweenMax.min.js"></script>
+
+<ul class="grid">
+  <li class="grid__item">
+    <h2 class="letter-wrap">泉州尚创网络科技有限公司</h2>
+    <p class="pp">在教学过程中，进行真实项目(Java)的实战演练。</p>
+  </li>
+  <li class="grid__item">
+    <h2 class="letter-wrap" data-duration="0.4" data-stagger="0.1">苏州高博应诺科技有限公司</h2>
+    <p class="pp">练习流行的实战项目。（AI人工智能，爬虫技术培训） </p> 
+  </li>
+  <li class="grid__item">
+    <h2 class="letter-wrap" data-duration="0.2" data-stagger="-0.05">校内实践</h2>
+    <p class="pp"><strong>班级行政班长</strong> </p>
+    <p class="pp">管理班级大小事务、比赛及活动的安排。 </p>  
+  </li>
+  <li class="grid__item">
+    <h2 class="letter-wrap" data-duration="0.1" data-stagger="0.1">校团委干事</h2>
+    <p class="pp">处理大小事务及服从各项活动的安排。</p>
+  </li>
+  <li class="grid__item">
+    <h2 class="letter-wrap" data-stagger="-0.015">电脑协会成员</h2>
+    <p class="pp">日常值班及电脑的软硬件的维护与维修。</p>
+  </li>
+  <li class="grid__item">
+    <h2 class="letter-wrap" data-duration="1" data-stagger="0.025">希望早日加入贵公司(#￣▽￣#)</h2>
+    <p class="pp"><a href="index.html"><strong>Go Home!</strong> </a></p>
+</ul>
+
+<script>
+const letterWrapClass = 'letter-wrap';
+const letterWrapElements = document.getElementsByClassName(letterWrapClass);
+
+[...letterWrapElements].forEach(el => {
+  letterWrap(el, letterWrapClass);
+  letterAnimation(el, letterWrapClass);
+});
+
+
+
+function letterWrap(el, cls) {
+  const words = el.textContent.split(' ');
+  const letters = [];
+  
+  cls = cls || 'letter-wrap'
+  
+  words.forEach(word => {
+    let html = '';
+    for (var letter in word) {
+      html += `
+        <span class="${cls}__char">
+          <span class="${cls}__char-inner" data-letter="${word[letter]}">
+            ${word[letter]}
+          </span>
+        </span>
+      `;
+    };
+    
+    let wrappedWords = `<span class="${cls}__word">${html}</span>`;
+    letters.push(wrappedWords);
+  });
+  
+  return el.innerHTML = letters.join(' ');
+}
+
+function letterAnimation(el, cls) {
+  const tl = new TimelineMax({ paused: true });
+  const characters = el.querySelectorAll(`.${cls}__char-inner`);
+  const duration = el.hasAttribute('data-duration') ? el.dataset.duration : 0.3;
+  const stagger = el.hasAttribute('data-stagger') ? el.dataset.stagger : 0.03;
+  
+  el.animation = tl.staggerTo(characters, duration, {
+    y: '-100%',
+    ease: Power4.easeOut
+  }, stagger);
+      
+  el.addEventListener('mouseenter', (event) => event.currentTarget.animation.play());
+  el.addEventListener('mouseout', (event) => el.animation.reverse());
+}
+</script>
+</body>
+</html>
+
